@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Happy Birthday Pastor Daniel</title>
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      background: linear-gradient(135deg, #ffecd2, #fcb69f);
+      overflow: hidden;
+      font-family: 'Segoe UI', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 3em;
+      color: #4a148c;
+      z-index: 10;
+    }
+
+    p {
+      font-size: 1.5em;
+      color: #6a1b9a;
+    }
+
+    .balloon {
+      position: absolute;
+      bottom: -150px;
+      width: 60px;
+      height: 80px;
+      border-radius: 50%;
+      animation: float 10s linear infinite;
+    }
+
+    @keyframes float {
+      from {
+        transform: translateY(0);
+      }
+      to {
+        transform: translateY(-120vh);
+      }
+    }
+
+    canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      pointer-events: none;
+    }
+  </style>
+</head>
+<body>
+
+  <canvas id="confetti"></canvas>
+
+  <div>
+    <h1>🎉 Happy Birthday Pastor Daniel 🎉</h1>
+    <p>Wishing you joy, grace, and many more blessed years 🎂🙏</p>
+  </div>
+
+  <script>
+    // Balloons
+    const colors = ['#ff5252', '#ff4081', '#7c4dff', '#40c4ff', '#69f0ae'];
+
+    for (let i = 0; i < 20; i++) {
+      const balloon = document.createElement('div');
+      balloon.className = 'balloon';
+      balloon.style.left = Math.random() * 100 + 'vw';
+      balloon.style.background = colors[Math.floor(Math.random() * colors.length)];
+      balloon.style.animationDuration = 5 + Math.random() * 5 + 's';
+      document.body.appendChild(balloon);
+    }
+
+    // Confetti
+    const canvas = document.getElementById('confetti');
+    const ctx = canvas.getContext('2d');
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    const confettiPieces = [];
+
+    for (let i = 0; i < 200; i++) {
+      confettiPieces.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        r: Math.random() * 6 + 2,
+        d: Math.random() * 10,
+        color: colors[Math.floor(Math.random() * colors.length)],
+      });
+    }
+
+    function drawConfetti() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      confettiPieces.forEach(p => {
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fillStyle = p.color;
+        ctx.fill();
+        p.y += Math.cos(p.d) + 1;
+        if (p.y > canvas.height) p.y = 0;
+      });
+      requestAnimationFrame(drawConfetti);
+    }
+
+    drawConfetti();
+  </script>
+
+</body>
+</html>
